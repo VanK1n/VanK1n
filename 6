@@ -1,0 +1,52 @@
+import java.util.Scanner;
+public class SumCalculator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите x: ");
+        double x = scanner.nextDouble();
+        System.out.print("Введите количество слагаемых: ");
+        int n = scanner.nextInt();
+        double e = 2.7;
+        if (x > Double.MAX_VALUE || x < -Double.MAX_VALUE) {
+            System.out.println("Значение x за пределами допустимого интервала");
+            return;
+        }
+        double sumN = calculateSumN(x, n);
+        System.out.println("Сумма " + n + " слагаемых: " + sumN);
+        double sumGreaterE = calculateSumGreater(x, n, e);
+        System.out.println("Сумма слагаемых > e: " + sumGreaterE);
+        double sumGreaterE_10 = calculateSumGreater(x, n, e / 10);
+        System.out.println("Сумма слагаемых > e/10: " + sumGreaterE_10);
+        double mathFunctionValue = Math.exp(-Math.pow(x, 2));
+        System.out.println("Значение функции Math.exp(-x^2): " + mathFunctionValue);
+        scanner.close();
+    }
+    public static long factorial(int n) {
+        if (n == 0) {
+            return 1;
+        }
+        long result = 1;
+        for (int i = 1; i <= n; i++) {
+            result *= i;
+        }
+        return result;
+    }
+    public static double calculateSumN(double x, int n) {
+        double sum = 0;
+        for (int i = 0; i < n; i++) {
+            double term = Math.pow(-1, i) * Math.pow(x, 2 * i) / factorial(i);
+            sum += term;
+        }
+        return sum;
+    }
+    public static double calculateSumGreater(double x, int n, double threshold) {
+        double sum = 0;
+        for (int i = 0; i < n; i++) {
+            double term = Math.pow(-1, i) * Math.pow(x, 2 * i) / factorial(i);
+            if (Math.abs(term) > threshold) {
+                sum += term;
+            }
+        }
+        return sum;
+    }
+}
