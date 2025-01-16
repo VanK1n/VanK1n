@@ -1,34 +1,49 @@
 import java.util.Scanner;
-public class Main {
+
+public class SumNum {
+
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Введите целое число N (> 2): ");
-        int N = scanner.nextInt();
+        int N = getInput("Введите целое число N (> 2): ");
+        int a = getInput("Введите число a: ");
+
         if (N <= 2) {
             System.out.println("N должно быть больше 2.");
             return;
         }
+        int[] sequence = generateSequence(N);
+        printSequence(sequence);
+        int sum = calculateSum(sequence, a);
+        System.out.println("Сумма элементов, меньших a: " + sum);
+    }
+    private static int getInput(String message) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print(message);
+        return scanner.nextInt();
+    }
+    private static int[] generateSequence(int N) {
         int[] A = new int[N];
         A[0] = 1;
         A[1] = 2;
         A[2] = 3;
-        for (int k = 3; k < N; k++) {
-            A[k] = A[k - 1] + A[k - 2] - 2 * A[k - 3];
+        for (int i = 3; i < N; i++) {
+            A[i] = A[i - 1] + A[i - 2] - 2 * A[i - 3];
         }
-        System.out.println("Элементы последовательности A1, A2, ..., AN:");
-        for (int k = 0; k < N; k++) {
-            System.out.print(A[k] + " ");
+        return A;
+    }
+    private static void printSequence(int[] sequence) {
+        System.out.println("Последовательность:");
+        for (int num : sequence) {
+            System.out.print(num + " ");
         }
         System.out.println();
-        System.out.print("Введите число a: ");
-        int a = scanner.nextInt();
+    }
+    private static int calculateSum(int[] sequence, int a) {
         int sum = 0;
-        for (int k = 0; k < N; k++) {
-            if (A[k] < a) {
-                sum += A[k];
+        for (int num : sequence) {
+            if (num < a) {
+                sum += num;
             }
         }
-        System.out.println("Сумма элементов последовательности, меньших " + a + ": " + sum);
-        scanner.close();
+        return sum;
     }
 }
